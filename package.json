@@ -1,0 +1,41 @@
+{
+  "name": "palomas-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "neutrino start",
+    "build": "neutrino build",
+    "test": "mocha"
+  },
+  "author": "Joel Martinez @j0x0j",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.1",
+    "express-favicon": "^2.0.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.12.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "eslint": "^4.8.0",
+    "eslint-config-standard": "^10.2.1",
+    "material-ui": "^0.19.3",
+    "mocha": "^4.0.1",
+    "neutrino": "^7.0.2",
+    "neutrino-preset-mocha": "^7.0.2",
+    "neutrino-preset-react": "^7.0.2",
+    "neutrino-preset-standard": "git+https://github.com/j0x0j/neutrino-preset-standard.git",
+    "query-string": "^5.0.0",
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.31.3",
+    "react-dom": "^16.0.0",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "react-router-dom": "^4.2.2",
+    "react-tap-event-plugin": "^3.0.2",
+    "should": "^13.1.0"
+  }
+}
