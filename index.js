@@ -12,16 +12,22 @@ if (env === 'development') {
  * Load db and server
  *
  */
- const mongoose = require('mongoose')
+const fs = require('fs')
+const join = require('path').join
+const mongoose = require('mongoose')
+const models = join(__dirname, '/server/models')
 
- mongoose.Promise = global.Promise
- mongoose.createConnection(process.env.MONGO_URL, {
-   useMongoClient: true
- })
- .then(db => {
-   require('./server')(env, db)
- })
- .catch(err => {
-   console.log(err)
-   process.exit(0)
- })
+mongoose.Promise = global.Promise
+mongoose.connect(process.env.MONGO_URL, {
+  useMongoClient: true
+})
+mongoose.connection.on(
+  'error', 
+  console.error.bind(console, 'MongoDB connection error:')
+)
+
+fs.readdirSync(models)
+  .filter(file => ~file.search(/^[^\.].*\.js$/))
+  .forEach(file => require(join(models, file)))
+
+require('./server')(env)

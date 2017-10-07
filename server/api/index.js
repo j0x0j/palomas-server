@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const constants = require('../config/constants')
 
 module.exports = (server, db) => {
