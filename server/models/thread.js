@@ -9,12 +9,12 @@ const MessageSchema = new Schema({
     default: '',
     trim: true
   },
-  senderPhoneNumber: {
-    type: Number,
+  senderPhone: {
+    type: String,
     default: '',
     trim: true
   },
-  body: {
+  content: {
     type: String,
     default: '',
     trim: true
@@ -44,9 +44,10 @@ const ThreadSchema = new Schema({
     trim: true
   },
   receiverPhone: {
-    type: Number,
+    type: String,
     default: '',
-    trim: true
+    trim: true,
+    index: true
   },
   messages: [MessageSchema]
 })

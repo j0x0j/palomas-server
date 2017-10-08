@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URL, {
   useMongoClient: true
 })
 mongoose.connection.on(
-  'error', 
+  'error',
   console.error.bind(console, 'MongoDB connection error:')
 )
 
@@ -30,4 +30,4 @@ fs.readdirSync(models)
   .filter(file => ~file.search(/^[^\.].*\.js$/))
   .forEach(file => require(join(models, file)))
 
-require('./server')(env)
+module.exports = require('./server')(env)
