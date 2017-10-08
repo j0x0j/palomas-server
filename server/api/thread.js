@@ -12,6 +12,27 @@ const resWithError = (res, status, message) => {
 }
 
 router
+  .route('/list/:receiverPhone')
+  .get(
+    async (req, res, next) => {
+      const { receiverPhone } = req.params
+      if (!receiverPhone) {
+        return resWithError(res, 400, 'Invalid parameters')
+      }
+      try {
+        const threads =
+          await Thread.find({ receiverPhone }).slice('messages', [0, 1])
+        if (!threads) {
+          return resWithError(res, 404, 'No threads found')
+        }
+        res.json(threads)
+      } catch (e) {
+        next(e)
+      }
+    }
+  )
+
+router
   .route('/message/list/:threadId')
   .get(
     async (req, res, next) => {
