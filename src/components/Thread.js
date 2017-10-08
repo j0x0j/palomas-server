@@ -9,6 +9,7 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import MenuItem from 'material-ui/MenuItem'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
+
 import {
   Card,
   CardHeader,
@@ -38,7 +39,7 @@ class Thread extends React.Component {
     return (
       <div className='thread-component'>
         <PageHeader>
-          Conversación <small>con Juan Pérez {threadId}</small>
+          <small>{threadId}</small>
         </PageHeader>
 
         <Toolbar style={{marginBottom: '15px'}}>

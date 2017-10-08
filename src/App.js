@@ -1,14 +1,12 @@
 import React from 'react'
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import {
   Grid,
   Row,
-  Col,
-  Navbar
+  Col
 } from 'react-bootstrap'
 
 // import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -19,47 +17,36 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import Thread from './components/Thread'
+import Header from './components/Header'
+import Create from './components/Create'
+import Home from './components/Home'
 
 const App = () => (
   <Router>
     <MuiThemeProvider>
-      <Grid className='App'>
-        <Row className='show-grid'>
-          <Col xs={12} className='collapse-xs'>
-            <Navbar>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to='/'>Palom.as</Link>
-                </Navbar.Brand>
-              </Navbar.Header>
-              <ul className='nav navbar-nav'>
-                <li role='presentation'>
-                  <Link to='/thread?id=h8203rh493ubfr'>Thread</Link>
-                </li>
-                <li role='presentation'>
-                  <Link to='/inbox'>Inbox</Link>
-                </li>
-                <li role='presentation'>
-                  <Link to='/create'>Create</Link>
-                </li>
-              </ul>
-            </Navbar>
-
-            <Route path='/thread' component={Thread} />
-          </Col>
-        </Row>
-        <link
-          rel='stylesheet'
-          href='https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css'
-        />
-        <link
-          rel='stylesheet'
-          href='https://fonts.googleapis.com/css?family=Roboto'
-        />
-        <style>{
-          `body { font-family: 'Roboto', sans-serif; }`
-        }</style>
-      </Grid>
+      <div>
+        <Header />
+        <Grid className='App'>
+          <Row className='show-grid'>
+            <Col xs={12} className='collapse-xs'>
+              <Route path='/thread' component={Thread} />
+              <Route path='/create' component={Create} />
+              <Route path='/home' component={Home} />
+            </Col>
+          </Row>
+          <link
+            rel='stylesheet'
+            href='https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css'
+          />
+          <link
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css?family=Roboto'
+          />
+          <style>{
+            `body { font-family: 'Roboto', sans-serif; }`
+          }</style>
+        </Grid>
+      </div>
     </MuiThemeProvider>
   </Router>
 )
