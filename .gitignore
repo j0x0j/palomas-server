@@ -1,4 +1,6 @@
 .env
 /node_modules/
 /build/
+/public/data
+/public/blob.html
 .DS_Store

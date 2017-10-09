@@ -49,6 +49,10 @@ const ThreadSchema = new Schema({
     trim: true,
     index: true
   },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   messages: [MessageSchema]
 })
 

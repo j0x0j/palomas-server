@@ -7,7 +7,7 @@ module.exports = (env) => {
   require('./api')(server)
 
   const instance = server.listen(server.get('port'), () => {
-    console.log(`💻  Server listening on port ${instance.address().port}`)
+    console.log(`💻  Server listening on port ${instance.address().port}\n`)
   })
 
   return instance

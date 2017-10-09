@@ -7,7 +7,7 @@ const favicon = require('express-favicon')
 module.exports = (env, server) => {
   server.set('port', env.PORT || 8080);
 
-  server.use(bodyParser.urlencoded({ extended: false }))
+  server.use(bodyParser.urlencoded({ extended: true }))
   server.use(bodyParser.json())
   server.use(cookieParser())
   server.use(express.static(path.join(__dirname, '/../../public')))

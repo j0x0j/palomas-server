@@ -1,15 +1,9 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const router = new express.Router()
+const { resWithError } = require('../utils')
 
 const Thread = mongoose.model('Thread')
-
-const resWithError = (res, status, message) => {
-  res.status(status).json({
-    status: 'error',
-    message
-  })
-}
 
 router
   .route('/list/:receiverPhone')
@@ -21,7 +15,8 @@ router
       }
       try {
         const threads =
-          await Thread.find({ receiverPhone }).slice('messages', [0, 1])
+          await Thread.find({ receiverPhone })
+            .slice('messages', [0, 1])
         if (!threads) {
           return resWithError(res, 404, 'No threads found')
         }
