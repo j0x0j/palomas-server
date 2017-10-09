@@ -25,22 +25,4 @@ router
     }
   )
 
-// router
-//   .route('/')
-//   .post(
-//     (req, res, next) => {
-//       const data = Buffer.from(req.body.blob, 'base64')
-//       const set = data.toString().split('\n')
-//       set.splice(-1, 1)
-//       set.forEach(piece => {
-//         const uncompressed = LZUTF8.decompress(piece, {
-//           inputEncoding: 'Base64',
-//           outputencoding: 'String'
-//         })
-//         console.log(JSON.parse(uncompressed))
-//       })
-//       res.send('OK')
-//     }
-//   )
-
 module.exports = router
