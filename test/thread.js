@@ -216,9 +216,12 @@ describe('Thread', function () {
         const res = await request(options)
         const body = res.body
         res.statusCode.should.eql(200)
-        body.should.be.a.Array
-        body.length.should.be.above(1)
-        body[0].senderName.should.eql('Maria Cintrón')
+        body.should.be.a.Object
+        body.should.have.property('threadId')
+        body.should.have.property('receiverName')
+        body.should.have.property('receiverPhone')
+        body.messages.length.should.be.above(1)
+        body.messages[0].senderName.should.eql('Maria Cintrón')
       })
     })
   })
