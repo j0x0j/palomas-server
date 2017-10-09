@@ -1,8 +1,11 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const cors = require('cors')
 const router = new express.Router()
 const Packager = require('../lib/packager')
 const { resWithError } = require('../utils')
+
+router.use(cors())
 
 router
   .route('/')
