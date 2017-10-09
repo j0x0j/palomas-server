@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Buffer = require('buffer').Buffer
 const LZUTF8 = require('lzutf8')
 const { eachSeries } = require('async')
+const Notifier = require('./notifier')
 
 const Thread = mongoose.model('Thread')
 
@@ -41,6 +42,7 @@ const Packager = {
       return callback(new Error('No messages provided'))
     }
 
+    const notifier = new Notifier()
     eachSeries(messages, (mess, next) => {
       const {
         threadId,
@@ -50,6 +52,9 @@ const Packager = {
         senderPhone,
         content
       } = mess
+      // Queue notifications
+      notifier.queue(mess)
+      // Upsert sub documents
       Thread.findOneAndUpdate(
         { threadId },
         {
@@ -64,7 +69,11 @@ const Packager = {
             }
           }
         }, { upsert: true }, next)
-    }, callback)
+    }, (err) => {
+      callback(err)
+      if (err) return
+      notifier.process()
+    })
   }
 }
 
