@@ -7,6 +7,7 @@
     "dev": "neutrino start",
     "build": "neutrino build",
     "postbuild": "copyfiles -f ./build/* ./public",
+    "start": "node index",
     "test": "mocha --exit"
   },
   "author": "Joel Martinez @j0x0j",
