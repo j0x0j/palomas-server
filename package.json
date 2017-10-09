@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "neutrino start",
     "build": "neutrino build",
+    "postbuild": "copyfiles -f ./build/* ./public",
     "test": "mocha --exit"
   },
   "author": "Joel Martinez @j0x0j",
@@ -23,12 +24,15 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "copyfiles": "^1.2.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.8.0",
     "eslint-config-standard": "^10.2.1",
     "material-ui": "^0.19.3",
     "mocha": "^4.0.1",
     "neutrino": "^7.0.2",
+    "neutrino-middleware-html-template": "^7.1.0",
+    "neutrino-middleware-minify": "^7.1.0",
     "neutrino-preset-mocha": "^7.0.2",
     "neutrino-preset-react": "^7.0.2",
     "neutrino-preset-standard": "git+https://github.com/j0x0j/neutrino-preset-standard.git",

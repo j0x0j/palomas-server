@@ -3,4 +3,6 @@
 /build/
 /public/data
 /public/blob.html
+/public/index.*.js
+/public/runtime.*.js
 .DS_Store
