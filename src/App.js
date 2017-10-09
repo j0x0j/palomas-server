@@ -20,6 +20,7 @@ import Thread from './components/Thread'
 import Header from './components/Header'
 import Create from './components/Create'
 import Home from './components/Home'
+import Inbox from './components/Inbox'
 
 const App = () => (
   <Router>
@@ -32,6 +33,7 @@ const App = () => (
               <Route path='/thread' component={Thread} />
               <Route path='/create' component={Create} />
               <Route path='/home' component={Home} />
+              <Route path='/inbox' component={Inbox} />
             </Col>
           </Row>
           <link

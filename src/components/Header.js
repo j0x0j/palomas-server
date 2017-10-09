@@ -41,7 +41,7 @@ class Header extends React.Component {
             <Link to='/home'>Inicio</Link>
           </MenuItem>
           <MenuItem onClick={this.handleToggle}>
-            <Link to='/thread?id=h8203rh493ubfr'>Mensajes</Link>
+            <Link to='/inbox'>Mensajes</Link>
           </MenuItem>
         </Drawer>
       </div>
