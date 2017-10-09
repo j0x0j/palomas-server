@@ -37,7 +37,17 @@ router
         if (!thread) {
           return resWithError(res, 404, 'No thread found')
         }
-        res.json(thread.messages)
+        const {
+          receiverName,
+          receiverPhone,
+          messages
+        } = thread
+        res.json({
+          threadId,
+          receiverName,
+          receiverPhone,
+          messages
+        })
       } catch (e) {
         next(e)
       }
