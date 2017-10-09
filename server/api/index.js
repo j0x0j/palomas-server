@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const path = require('path')
 const constants = require('../config/constants')
 
 // Controllers
@@ -11,4 +12,8 @@ module.exports = (server) => {
 
   server.use('/thread', thread)
   server.use('/package', package)
+
+  server.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/../../public/index.html'))
+  })
 }
