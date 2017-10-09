@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "neutrino start",
-    "build": "neutrino build",
-    "postbuild": "copyfiles -f ./build/* ./public",
+    "front-dev": "neutrino start",
+    "front-build": "neutrino build",
+    "postfront-build": "copyfiles -f ./build/* ./public",
     "start": "node index",
     "test": "mocha --exit"
   },
