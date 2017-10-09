@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 class Create extends React.Component {
   constructor (props) {
@@ -7,7 +8,8 @@ class Create extends React.Component {
     this.state = {
       nameFrom: '',
       nameTo: '',
-      message: ''
+      message: '',
+      threadId: 'bo34t08q4rfes4q'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,6 +27,26 @@ class Create extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
+    // get our form data out of state
+    const { threadId, nameFrom, nameTo, message } = this.state
+
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/thread/message',
+      data: {
+        threadId,
+        nameFrom,
+        nameTo,
+        message
+      }
+    })
+      .then(function (response) {
+        console.log('llegué')
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
   render () {

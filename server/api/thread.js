@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const cors = require('cors')
 const router = new express.Router()
 const { resWithError } = require('../utils')
 
 const Thread = mongoose.model('Thread')
+
+router.use(cors())
 
 router
   .route('/list/:receiverPhone')
