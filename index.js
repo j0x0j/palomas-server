@@ -4,7 +4,7 @@
  *
  */
 const env = process.env.NODE_ENV || 'development'
-if (env === 'development') {
+if (env !== 'production') {
   require('dotenv').load()
 }
 

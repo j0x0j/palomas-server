@@ -1,6 +1,7 @@
 // Handles compressed message packages
+const fs = require('fs')
 const mongoose = require('mongoose')
-const Buffer = require('buffer').Buffer
+const { Buffer } = require('buffer')
 const LZUTF8 = require('lzutf8')
 const { eachSeries } = require('async')
 const Notifier = require('./notifier')
@@ -8,12 +9,16 @@ const Notifier = require('./notifier')
 const Thread = mongoose.model('Thread')
 
 const Packager = {
-  pack: (str) => {
+  pack: (str, file) => {
     if (!str || typeof str !== 'string') {
       return new Error('No string provided')
     }
 
-    return LZUTF8.compress(str, { outputEncoding: 'Base64' })
+    const packed = LZUTF8.compress(str, { outputEncoding: 'Base64' })
+    if (file) {
+      fs.appendFileSync(file, packed + '\n')
+    }
+    return packed
   },
   unpack: (blob) => {
     if (!blob || typeof blob !== 'string') {
@@ -59,12 +64,12 @@ const Packager = {
         { threadId },
         {
           threadId,
-          receiverName,
+          senderPhone,
           receiverPhone,
           '$addToSet': {
             messages: {
               senderName,
-              senderPhone,
+              receiverName,
               content
             }
           }

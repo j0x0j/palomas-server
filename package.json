@@ -8,14 +8,14 @@
     "front-build": "neutrino build",
     "postfront-build": "copyfiles -f ./build/* ./public",
     "start": "node index",
-    "test": "mocha --exit"
+    "test": "NODE_ENV=testing mocha --exit"
   },
   "author": "Joel Martinez @j0x0j",
   "license": "ISC",
   "dependencies": {
     "async": "^2.5.0",
-    "axios": "^0.16.2",
     "body-parser": "^1.18.2",
+    "buffer-reverse": "^1.0.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.1",
@@ -26,6 +26,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "axios": "^0.16.2",
     "copyfiles": "^1.2.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.8.0",

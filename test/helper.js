@@ -19,10 +19,8 @@ const helper = () => {
       receiverPhone: '7872203939',
       content: 'Este es el segundo mensaje'
     })
-    const compressed1 = Packager.pack(mess1)
-    const compressed2 = Packager.pack(mess2)
-    fs.appendFileSync(file, compressed1 + '\n')
-    fs.appendFileSync(file, compressed2 + '\n')
+    const compressed1 = Packager.pack(mess1, file)
+    const compressed2 = Packager.pack(mess2, file)
     done()
   }
 

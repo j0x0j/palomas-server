@@ -15,7 +15,7 @@ describe('Thread', function () {
   before(async function () {
     await Thread.create({
       threadId,
-      receiverName: 'Juan Pérez',
+      senderPhone: '7871828181',
       receiverPhone: '7877773322'
     })
   })
@@ -28,36 +28,36 @@ describe('Thread', function () {
     before(async function () {
       await Thread.create({
         threadId: 'bo34t08q4rfes4q',
-        receiverName: 'Julia Santos',
+        senderPhone: '7871234002',
         receiverPhone: '7879239920',
         messages: [
           {
             senderName: 'Maria Cintrón',
-            senderPhone: '7871234002',
+            receiverName: 'Julia Santos',
             content: 'Desde el centro comunitario'
           }
         ]
       })
       await Thread.create({
         threadId: 'b320rgb283rbve',
-        receiverName: 'Julia Santos',
+        senderPhone: '7874934894',
         receiverPhone: '7879239920',
         mesages: [
           {
             senderName: 'Gloria Alegría',
-            senderPhone: '7874934894',
+            receiverName: 'Julia Santos',
             content: 'Hoy llegaron ayudas del gobierno'
           }
         ]
       })
       await Thread.create({
         threadId: 'asdcdfv90udsfv89sfh',
-        receiverName: 'Julia Santos',
+        senderPhone: '7879928333',
         receiverPhone: '7879239920',
         mesages: [
           {
             senderName: 'Juan Ventura',
-            senderPhone: '7879928333',
+            receiverName: 'Julia Santos',
             content: 'Que bueno que logro enviar un mensaje'
           }
         ]
@@ -98,6 +98,53 @@ describe('Thread', function () {
       body.should.be.a.Array
       body.length.should.be.above(2)
       body[0].messages[0].senderName.should.eql('Maria Cintrón')
+    })
+  })
+
+  describe('#create()', function () {
+    it('should respond with error object for invalid properties', async function () {
+      const options = {
+        method: 'POST',
+        uri: `${API_URL}/thread`,
+        body: {
+          content: ''
+        },
+        resolveWithFullResponse: true,
+        json: true
+      }
+      try {
+        await request(options)
+      } catch (e) {
+        const body = e.response.body
+        e.response.statusCode.should.eql(400)
+        body.should.be.a.Object
+        body.should.have.property('status', 'error')
+        body.should.have.property('message', 'Invalid parameters')
+      }
+    })
+
+    it('should respond with a new thread, when offgrid', async function () {
+      const message = {
+        senderName: 'Juan Perez',
+        senderPhone: '7873392929',
+        receiverName: 'Gloria Amarillo',
+        receiverPhone: '7872002099',
+        content: 'Esto es un mensaje de prueba'
+      }
+      const options = {
+        method: 'POST',
+        uri: `${API_URL}/thread`,
+        body: message,
+        resolveWithFullResponse: true,
+        json: true
+      }
+      const res = await request(options)
+      res.body.should.be.a.Object
+      res.body.should.have.property('threadId')
+      res.body.should.have.property('senderPhone')
+      res.body.should.have.property('receiverPhone')
+      res.body.should.have.property('messages')
+      res.body.messages.should.have.property('length', 1)
     })
   })
 
@@ -152,7 +199,7 @@ describe('Thread', function () {
           body: {
             threadId,
             senderName: 'Maria Cintrón',
-            senderPhone: '7871234002',
+            recieverName: 'Juan Pérez',
             content: 'Esto es contenido del mensaje'
           },
           resolveWithFullResponse: true,
@@ -169,19 +216,19 @@ describe('Thread', function () {
       const anotherThreadId = 'skjdfblkajsbdf'
 
       before(async function () {
-        await Thread.create({
+        const data = await Thread.create({
           threadId: anotherThreadId,
-          receiverName: 'Juan Pérez',
+          senderPhone: '7871234002',
           receiverPhone: '7877773322',
           messages: [
             {
               senderName: 'Maria Cintrón',
-              senderPhone: '7871234002',
+              receiverName: 'Juan Pérez',
               content: 'Esto es contenido del mensaje'
             },
             {
               senderName: 'Maria Cintrón',
-              senderPhone: '7871234002',
+              receiverName: 'Juan Pérez',
               content: 'Aquí otra comunicación'
             }
           ]
@@ -218,7 +265,7 @@ describe('Thread', function () {
         res.statusCode.should.eql(200)
         body.should.be.a.Object
         body.should.have.property('threadId')
-        body.should.have.property('receiverName')
+        body.should.have.property('senderPhone')
         body.should.have.property('receiverPhone')
         body.messages.length.should.be.above(1)
         body.messages[0].senderName.should.eql('Maria Cintrón')
