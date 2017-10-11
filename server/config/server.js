@@ -5,7 +5,7 @@ const path = require('path')
 const favicon = require('express-favicon')
 
 module.exports = (env, server) => {
-  server.set('port', env.PORT || 8080);
+  server.set('port', process.env.PORT || 8080);
 
   server.use(bodyParser.urlencoded({ extended: true }))
   server.use(bodyParser.json())
