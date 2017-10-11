@@ -22,6 +22,10 @@ import Create from './components/Create'
 import Home from './components/Home'
 import Inbox from './components/Inbox'
 
+// Stylesheets
+require('./static/css/bootstrap.min.css')
+require('./static/css/roboto.css')
+
 const App = () => (
   <Router>
     <MuiThemeProvider>
@@ -36,14 +40,6 @@ const App = () => (
               <Route path='/inbox' component={Inbox} />
             </Col>
           </Row>
-          <link
-            rel='stylesheet'
-            href='https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css'
-          />
-          <link
-            rel='stylesheet'
-            href='https://fonts.googleapis.com/css?family=Roboto'
-          />
           <style>{
             `body { font-family: 'Roboto', sans-serif; }`
           }</style>
