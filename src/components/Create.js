@@ -7,7 +7,7 @@ import Subheader from 'material-ui/Subheader'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
-const SERVER_ADDR = 'http://localhost:8080'
+const { SERVER_ADDR } = process.env
 
 class Create extends React.Component {
   constructor (props) {

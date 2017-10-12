@@ -14,7 +14,7 @@ import {
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentReply from 'material-ui/svg-icons/content/reply'
 
-const SERVER_ADDR = 'http://localhost:8080'
+const { SERVER_ADDR } = process.env
 
 class Thread extends React.Component {
   constructor (props) {

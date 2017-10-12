@@ -9,7 +9,7 @@ import {
   Link
 } from 'react-router-dom'
 
-const SERVER_ADDR = 'http://localhost:8080'
+const { SERVER_ADDR } = process.env
 
 class Inbox extends React.Component {
   constructor (props) {

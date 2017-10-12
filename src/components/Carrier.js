@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload'
 import RaisedButton from 'material-ui/RaisedButton'
 
-const SERVER_ADDR = 'http://localhost:8080'
+const { SERVER_ADDR } = process.env
 
 const iconStyles = {
   margin: 0

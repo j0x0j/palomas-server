@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "front-dev": "neutrino start",
-    "front-build": "neutrino build",
+    "front-dev": "neutrino start --options.env.SERVER_ADDR http://localhost:8080",
+    "front-build": "neutrino build --options.env.SERVER_ADDR ''",
     "postfront-build": "copyfiles -f ./build/*.js ./build/*.html ./public && copyfiles -f ./build/static/fonts/* ./public/fonts/",
     "start": "node index",
     "test": "NODE_ENV=testing mocha --timeout 5000 --exit"
@@ -36,6 +36,7 @@
     "material-ui": "^0.19.3",
     "mocha": "^4.0.1",
     "neutrino": "^7.0.2",
+    "neutrino-middleware-env": "^7.1.1",
     "neutrino-middleware-html-template": "^7.1.0",
     "neutrino-middleware-minify": "^7.1.0",
     "neutrino-middleware-style-loader": "^7.1.1",

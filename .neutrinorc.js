@@ -3,6 +3,7 @@ module.exports = {
     'neutrino-preset-standard',
     'neutrino-preset-react',
     'neutrino-middleware-style-loader',
+    ['neutrino-middleware-env', ['SERVER_ADDR']],
     'neutrino-middleware-minify',
     ['neutrino-middleware-html-template', {
       title: 'Palomas Mensajeras',
