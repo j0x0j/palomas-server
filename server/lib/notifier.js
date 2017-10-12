@@ -1,6 +1,10 @@
 // Handles notifications queue
 const { eachSeries } = require('async')
 const Twilio = require('twilio')
+const latinize = require('latinize')
+// extend for n tilde
+latinize.characters['Ñ'] = 'N'
+latinize.characters['ñ'] = 'n'
 
 const { TWILIO_SID, TWILIO_TOK, TWILIO_NUM } = require('../config/constants')
 const { NODE_ENV, TWILIO_TEST_TO_NUMBER } = process.env
@@ -65,9 +69,9 @@ class Notifier {
 
   buildMessage (mess) {
     const { threadId, receiverName, senderName } = mess
+    const name = latinize(senderName)
     return (
-      `Hola ${receiverName}, ${senderName} te ha enviado un mensaje. ` +
-      `Puedes leerlo tocando este enlace. https://palom.as/thread?id=${threadId}`
+      `${name} te ha enviado un mensaje. https://palom.as/thread?id=${threadId}`
     )
   }
 }

@@ -5,9 +5,9 @@ import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
 import Badge from 'material-ui/Badge'
-import {
-  Link
-} from 'react-router-dom'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import { Link } from 'react-router-dom'
 
 const { SERVER_ADDR } = process.env
 
@@ -16,14 +16,16 @@ class Inbox extends React.Component {
     super(props)
 
     this.state = {
+      name: '',
       phone: '',
       threads: []
     }
   }
 
   componentWillMount () {
+    const name = localStorage.getItem('name')
     const phone = localStorage.getItem('phone')
-    this.setState({ phone })
+    this.setState({ name, phone })
   }
 
   componentDidMount () {
@@ -61,10 +63,18 @@ class Inbox extends React.Component {
           {this.state.threads.map((thread, i) => {
             const { threadId } = thread
             const path = `/thread?id=${threadId}`
+            let threadName
+            if (
+              thread.messages[0].receiverName === this.state.name
+            ) {
+              threadName = thread.messages[0].senderName
+            } else {
+              threadName = thread.messages[0].receiverName
+            }
             return (
               <ListItem
                 key={i}
-                primaryText={thread.messages[0].senderName}
+                primaryText={threadName}
                 containerElement={<Link to={path} />}
                 secondaryText={
                   <p>{thread.messages[0].content}</p>
@@ -72,7 +82,7 @@ class Inbox extends React.Component {
                 secondaryTextLines={2}
                 rightIcon={
                   <Badge
-                    badgeContent={1}
+                    badgeContent='&bull;'
                     primary
                   />}
               />
@@ -80,6 +90,21 @@ class Inbox extends React.Component {
           })}
         </List>
         <Divider />
+        <FloatingActionButton
+          secondary
+          style={{
+            position: 'fixed',
+            bottom: '15px',
+            right: '15px'
+          }}
+          onClick={() => {
+            this.props.history.push(
+              `/create?new=1`
+            )
+          }}
+        >
+          <ContentAdd />
+        </FloatingActionButton>
       </div>
     )
   }

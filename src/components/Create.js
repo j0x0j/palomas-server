@@ -14,10 +14,13 @@ class Create extends React.Component {
     super(props)
 
     this.state = {
-      nameFrom: '',
-      nameTo: '',
+      senderName: '',
+      senderPhone: '',
+      receiverName: '',
+      receiverPhone: '',
       message: '',
-      threadId: ''
+      threadId: '',
+      isNew: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,11 +28,14 @@ class Create extends React.Component {
 
   componentWillMount () {
     const query = qs.parse(location.search)
-    const nameFrom = localStorage.getItem('name')
+    const senderName = localStorage.getItem('name')
+    const senderPhone = localStorage.getItem('phone')
     this.setState({
       threadId: query.id,
-      nameTo: query.to,
-      nameFrom
+      receiverName: query.to,
+      isNew: query.new === '1',
+      senderName,
+      senderPhone
     })
   }
 
@@ -47,24 +53,45 @@ class Create extends React.Component {
     e.preventDefault()
     // get our form data out of state
     const self = this
-    const { threadId, nameFrom, nameTo, message } = this.state
+    const {
+      threadId,
+      senderName,
+      senderPhone,
+      receiverName,
+      receiverPhone,
+      message,
+      isNew
+    } = this.state
 
     if (!message) {
       return alert('Debe escribir un mensaje')
     }
 
-    axios({
-      method: 'post',
-      url: `${SERVER_ADDR}/thread/message`,
-      data: {
+    let url, data
+
+    if (isNew) {
+      url = `${SERVER_ADDR}/thread`
+      data = {
+        isNew,
+        content: message,
+        senderName,
+        senderPhone,
+        receiverName,
+        receiverPhone
+      }
+    } else {
+      url = `${SERVER_ADDR}/thread/message`
+      data = {
         threadId,
-        senderName: nameFrom,
-        receiverName: nameTo,
+        senderName,
+        receiverName,
         content: message
       }
-    })
-      .then(() => {
-        self.props.history.push(`/thread?id=${threadId}`)
+    }
+
+    axios({ method: 'post', url, data })
+      .then(res => {
+        self.props.history.push(`/thread?id=${threadId || res.data.threadId}`)
       })
       .catch(error => { alert(error.message) })
   }
@@ -82,8 +109,8 @@ class Create extends React.Component {
               <TextField
                 hintText='De'
                 floatingLabelText='Quien escribe'
-                name='nameFrom'
-                value={this.state.nameFrom}
+                name='senderName'
+                value={this.state.senderName}
                 onChange={this.handleChange}
                 required
               />
@@ -92,13 +119,25 @@ class Create extends React.Component {
               <TextField
                 hintText='Para'
                 floatingLabelText='A quien le escribes'
-                name='nameTo'
-                value={this.state.nameTo}
+                name='receiverName'
+                value={this.state.receiverName}
                 onChange={this.handleChange}
                 valueLink
                 required
               />
             </label>
+            {this.state.isNew
+              ? <label>
+                <TextField
+                  hintText='7871230000'
+                  floatingLabelText='El número móvil'
+                  name='receiverPhone'
+                  value={this.state.receiverPhone}
+                  onChange={this.handleChange}
+                  required
+                />
+              </label> : null
+            }
             <label>
               <TextField
                 hintText='Escriba su mensaje'
