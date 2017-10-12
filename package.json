@@ -8,7 +8,7 @@
     "front-build": "neutrino build",
     "postfront-build": "copyfiles -f ./build/*.js ./build/*.html ./public && copyfiles -f ./build/static/fonts/* ./public/fonts/",
     "start": "node index",
-    "test": "NODE_ENV=testing mocha --exit"
+    "test": "NODE_ENV=testing mocha --timeout 5000 --exit"
   },
   "author": "Joel Martinez @j0x0j",
   "license": "ISC",
@@ -24,7 +24,8 @@
     "lzutf8": "^0.4.6",
     "mongo": "^0.1.0",
     "mongoose": "^4.12.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "twilio": "^3.8.0"
   },
   "devDependencies": {
     "axios": "^0.16.2",

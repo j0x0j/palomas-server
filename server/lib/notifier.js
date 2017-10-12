@@ -1,10 +1,14 @@
 // Handles notifications queue
 const { eachSeries } = require('async')
+const Twilio = require('twilio')
+
+const { TWILIO_SID, TWILIO_TOK, TWILIO_NUM } = require('../config/constants')
 
 class Notifier {
   constructor () {
     this.receivers = []
     this.uniques = []
+    this.client = new Twilio(TWILIO_SID, TWILIO_TOK)
   }
 
   queue (message) {
@@ -36,10 +40,18 @@ class Notifier {
   }
 
   notify (mess, callback) {
-    // @TODO: Send twilio SMS
-    setTimeout(function () {
-      callback()
-    }, 100)
+    let to, from = TWILIO_NUM
+    const body = this.buildMessage(mess)
+    if (process.env.NODE_ENV === 'testing') {
+      to = process.env.TWILIO_TEST_TO_NUMBER
+    } else {
+      to = mess.receiverPhone
+    }
+    this.client.messages.create({ body, to, from })
+      .then(message => {
+        callback(null, message.sid)
+      })
+      .catch(err => { callback(err) })
   }
 
   process (callback) {
