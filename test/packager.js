@@ -79,5 +79,19 @@ describe('Packager', function () {
       const messages = Packager.unpack(blob.toString('base64'))
       Packager.save(messages, done)
     })
+
+    it('should callback with no error but will not insert duplicate messages', function (done) {
+      const blob = fs.readFileSync(dataFile)
+      const messages = Packager.unpack(blob.toString('base64'))
+      Packager.save(messages, async (result) => {
+        try {
+          const thread = await Thread.findOne({ threadId: '8439ywrbf4brg5werfv' })
+          thread.messages.should.have.property('length', 1)
+          done()
+        } catch (e) {
+          done(e)
+        }
+      })
+    })
   })
 })

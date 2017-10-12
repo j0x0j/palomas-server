@@ -1,6 +1,7 @@
 // Handles compressed message packages
 const fs = require('fs')
 const mongoose = require('mongoose')
+const hasher = require('object-hash')
 const { Buffer } = require('buffer')
 const LZUTF8 = require('lzutf8')
 const { eachSeries } = require('async')
@@ -49,6 +50,7 @@ const Packager = {
 
     const notifier = new Notifier()
     eachSeries(messages, (mess, next) => {
+      const hash = hasher(mess)
       const {
         threadId,
         receiverName,
@@ -61,13 +63,19 @@ const Packager = {
       notifier.queue(mess)
       // Upsert sub documents
       Thread.findOneAndUpdate(
-        { threadId },
+        {
+          threadId,
+          'messages.hash': {
+            $not: new RegExp(hash)
+          }
+        },
         {
           threadId,
           senderPhone,
           receiverPhone,
           '$addToSet': {
             messages: {
+              hash,
               senderName,
               receiverName,
               content

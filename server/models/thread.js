@@ -4,6 +4,11 @@ const Schema = mongoose.Schema
 // Message Schema
 
 const MessageSchema = new Schema({
+  hash: {
+    type: String,
+    default: '',
+    trim: true
+  },
   senderName: {
     type: String,
     default: '',
