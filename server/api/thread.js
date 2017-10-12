@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const express = require('express')
-const cors = require('cors')
 const { join } = require('path')
 const router = new express.Router()
 const Packager = require('../lib/packager')
@@ -8,8 +7,6 @@ const { resWithError, genThreadId } = require('../utils')
 
 const Thread = mongoose.model('Thread')
 const PACKAGE_PATH = join(__dirname, '/../../public/data/messages.json.lz')
-
-router.use(cors())
 
 router
   .route('/list/:phone')

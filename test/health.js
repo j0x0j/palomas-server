@@ -13,5 +13,6 @@ describe('Health', function () {
     res.statusCode.should.eql(200)
     body.should.be.a.Object
     body.should.have.property('status', 'OK')
+    body.should.have.property('env', 'testing')
   })
 })

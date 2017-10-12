@@ -21,6 +21,7 @@ import Header from './components/Header'
 import Create from './components/Create'
 import Home from './components/Home'
 import Inbox from './components/Inbox'
+import Carrier from './components/Carrier'
 
 // Stylesheets
 require('./static/css/bootstrap.min.css')
@@ -33,11 +34,12 @@ const App = () => (
         <Header />
         <Grid className='App'>
           <Row className='show-grid'>
-            <Col xs={12} className='collapse-xs'>
+            <Col xs={12}>
               <Route path='/thread' component={Thread} />
               <Route path='/create' component={Create} />
               <Route path='/home' component={Home} />
               <Route path='/inbox' component={Inbox} />
+              <Route path='/cherami' component={Carrier} />
             </Col>
           </Row>
           <style>{

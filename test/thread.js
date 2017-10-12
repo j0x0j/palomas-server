@@ -199,7 +199,7 @@ describe('Thread', function () {
           body: {
             threadId,
             senderName: 'Maria Cintrón',
-            recieverName: 'Juan Pérez',
+            receiverName: 'Juan Pérez',
             content: 'Esto es contenido del mensaje'
           },
           resolveWithFullResponse: true,
