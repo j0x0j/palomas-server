@@ -6,6 +6,7 @@ const { Buffer } = require('buffer')
 const LZUTF8 = require('lzutf8')
 const { eachSeries } = require('async')
 const Notifier = require('./notifier')
+const { NODE_ENV } = process.env
 
 const Thread = mongoose.model('Thread')
 
@@ -85,7 +86,10 @@ const Packager = {
     }, (err) => {
       callback(err)
       if (err) return
-      notifier.process()
+      // Don't notify when offgrid
+      if (NODE_ENV !== 'offgrid') {
+        notifier.process()
+      }
     })
   }
 }

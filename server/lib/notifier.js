@@ -3,6 +3,7 @@ const { eachSeries } = require('async')
 const Twilio = require('twilio')
 
 const { TWILIO_SID, TWILIO_TOK, TWILIO_NUM } = require('../config/constants')
+const { NODE_ENV, TWILIO_TEST_TO_NUMBER } = process.env
 
 class Notifier {
   constructor () {
@@ -42,8 +43,8 @@ class Notifier {
   notify (mess, callback) {
     let to, from = TWILIO_NUM
     const body = this.buildMessage(mess)
-    if (process.env.NODE_ENV === 'testing') {
-      to = process.env.TWILIO_TEST_TO_NUMBER
+    if (NODE_ENV === 'testing') {
+      to = TWILIO_TEST_TO_NUMBER
     } else {
       to = mess.receiverPhone
     }
