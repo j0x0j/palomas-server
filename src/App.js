@@ -22,6 +22,7 @@ import Create from './components/Create'
 import Home from './components/Home'
 import Inbox from './components/Inbox'
 import Carrier from './components/Carrier'
+import Join from './components/Join'
 
 // Stylesheets
 require('./static/css/bootstrap.min.css')
@@ -35,11 +36,12 @@ const App = () => (
         <Grid className='App'>
           <Row className='show-grid'>
             <Col xs={12}>
+              <Route path='/home' component={Home} />
               <Route path='/thread' component={Thread} />
               <Route path='/create' component={Create} />
-              <Route path='/home' component={Home} />
               <Route path='/inbox' component={Inbox} />
               <Route path='/cherami' component={Carrier} />
+              <Route path='/join' component={Join} />
             </Col>
           </Row>
           <style>{

@@ -41,6 +41,9 @@ class Header extends React.Component {
             <Link to='/home'>Inicio</Link>
           </MenuItem>
           <MenuItem onClick={this.handleToggle}>
+            <Link to='/join'>Acceder</Link>
+          </MenuItem>
+          <MenuItem onClick={this.handleToggle}>
             <Link to='/inbox'>Mensajes</Link>
           </MenuItem>
         </Drawer>

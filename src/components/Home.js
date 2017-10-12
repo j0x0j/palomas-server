@@ -70,8 +70,18 @@ class Home extends React.Component {
 
     return (
       <div>
-        <div style={{paddingTop: 20}}>
-          <p>La intención de las Palomas Mensajeras es contribuir a que se establezca comunicación básica entre grupos incomunicados.  Por esta razón se le da mayor importancia a lograr ese contacto que a la privacidad del mensaje.  Es posible que la conversación sea vista por terceros.</p>
+        <div style={{
+          marginTop: '20px',
+          padding: '10px',
+          background: '#fcf8e3'
+        }}>
+          <p>
+            La intención de las Palomas Mensajeras es contribuir a que se
+            establezca comunicación básica entre grupos incomunicados.
+            Por esta razón se le da mayor importancia a lograr ese contacto
+            que a la privacidad del mensaje. Es posible que la conversación
+            sea vista por terceros.
+          </p>
         </div>
         <div style={{maxWidth: 380, maxHeight: 400, margin: 'auto'}}>
           <Stepper activeStep={stepIndex} orientation='vertical'>
