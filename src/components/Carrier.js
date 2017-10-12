@@ -104,7 +104,7 @@ class Carrier extends React.Component {
       })
       localStorage.removeItem(key)
     }
-    oReq.send(JSON.stringify({ blob }))
+    oReq.send(JSON.stringify({ key, blob }))
   }
 
   checkHealth (cb) {

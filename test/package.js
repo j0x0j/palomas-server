@@ -58,7 +58,7 @@ describe('Package', function () {
       const options = {
         method: 'POST',
         uri: `${API_URL}/package`,
-        body: { blob },
+        body: { blob, key: 'package-TEST' },
         resolveWithFullResponse: true,
         json: true
       }
@@ -67,6 +67,25 @@ describe('Package', function () {
       res.statusCode.should.eql(200)
       body.should.be.a.Object
       body.should.have.property('status', 'OK')
+    })
+
+    it('should respond with error object for same [AP] package', async function () {
+      const options = {
+        method: 'POST',
+        uri: `${API_URL}/package`,
+        body: { blob, key: 'package-000001' },
+        resolveWithFullResponse: true,
+        json: true
+      }
+      try {
+        await request(options)
+      } catch (e) {
+        const body = e.response.body
+        e.response.statusCode.should.eql(400)
+        body.should.be.a.Object
+        body.should.have.property('status', 'error')
+        body.should.have.property('message', 'No upload to same AP')
+      }
     })
   })
 })
