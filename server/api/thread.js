@@ -103,9 +103,10 @@ router
         senderName,
         senderPhone,
         content
-      }), PACKAGE_PATH)
-
-      res.json(thread)
+      }), PACKAGE_PATH, (err) => {
+        if (err) console.log(err)
+        res.json(thread)
+      })
     }
   )
 
@@ -172,8 +173,10 @@ router
           senderName,
           senderPhone,
           content
-        }), PACKAGE_PATH)
-        res.json(thread)
+        }), PACKAGE_PATH, (err) => {
+          if (err) console.log(err)
+          res.json(thread)
+        })
       } catch (e) {
         resWithError(res, 400, e.message)
       }

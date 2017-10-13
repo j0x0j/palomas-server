@@ -19,9 +19,11 @@ const helper = () => {
       receiverPhone: '7872203939',
       content: 'Este es el segundo mensaje'
     })
-    const compressed1 = Packager.pack(mess1, file)
-    const compressed2 = Packager.pack(mess2, file)
-    done()
+    Packager.pack(mess1, file, (err) => {
+      Packager.pack(mess2, file, (err2) => {
+        done()
+      })
+    })
   }
 
   return { createPackage }

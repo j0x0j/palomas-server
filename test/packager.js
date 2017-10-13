@@ -44,15 +44,20 @@ describe('Packager', function () {
       type.should.eql('function')
     })
 
-    it('should return an error for missing string', function () {
-      const compressed = Packager.pack('')
-      compressed.should.be.a.Error
-      compressed.should.have.property('message', 'No string provided')
+    it('should return an error for missing string', function (done) {
+      Packager.pack('', '', err => {
+        err.should.be.a.Error
+        err.should.have.property('message', 'No string provided')
+        done()
+      })
     })
 
-    it('should return a compressed string', function () {
-      const message = Packager.pack(JSON.stringify({ some: 'var' }))
-      message.should.be.a.String
+    it('should return a compressed string', function (done) {
+      const data = JSON.stringify({ some: 'var' })
+      Packager.pack(data, '', (err, message) => {
+        message.should.be.a.String
+        done(err)
+      })
     })
   })
 
