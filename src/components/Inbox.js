@@ -16,6 +16,7 @@ class Inbox extends React.Component {
     super(props)
 
     this.state = {
+      env: '',
       name: '',
       phone: '',
       threads: []
@@ -26,6 +27,7 @@ class Inbox extends React.Component {
     const name = localStorage.getItem('name')
     const phone = localStorage.getItem('phone')
     this.setState({ name, phone })
+    this.checkHealth()
   }
 
   componentDidMount () {
@@ -35,6 +37,14 @@ class Inbox extends React.Component {
       return
     }
     this.getThreads()
+  }
+
+  checkHealth () {
+    const self = this
+    const url = `${SERVER_ADDR}/health`
+    axios({ method: 'get', url })
+      .then(res => { self.setState({ env: res.data.env }) })
+      .catch(error => { alert(error.message) })
   }
 
   getThreads () {
@@ -90,21 +100,22 @@ class Inbox extends React.Component {
           })}
         </List>
         <Divider />
-        <FloatingActionButton
-          secondary
-          style={{
-            position: 'fixed',
-            bottom: '15px',
-            right: '15px'
-          }}
-          onClick={() => {
-            this.props.history.push(
-              `/create?new=1`
-            )
-          }}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
+        {this.state.env !== 'production'
+          ? <FloatingActionButton
+            secondary
+            style={{
+              position: 'fixed',
+              bottom: '15px',
+              right: '15px'
+            }}
+            onClick={() => {
+              this.props.history.push(
+                `/create?new=1`
+              )
+            }}
+          >
+            <ContentAdd />
+          </FloatingActionButton> : null}
       </div>
     )
   }

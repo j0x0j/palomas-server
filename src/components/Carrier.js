@@ -100,15 +100,8 @@ class Carrier extends React.Component {
         return self.handleError(message)
       }
       // Uploaded.
-      self.setState({
-        error: '',
-        success: '¡Gracias! Enviaremos estos mensajes ya.',
-        sending: false,
-        receiving: false,
-        dialogOpen: true,
-        packages: []
-      })
-      localStorage.removeItem(key)
+      self.removePackage(key)
+      alert('¡Gracias! Enviaremos estos mensajes ya.')
     }
     oReq.send(JSON.stringify({ key, blob }))
   }
@@ -154,6 +147,10 @@ class Carrier extends React.Component {
   }
 
   handleRemoveTouchTap (key) {
+    this.removePackage(key)
+  }
+
+  removePackage (key) {
     localStorage.removeItem(key)
     const packages = localStorageCollection()
     this.setState({ packages })

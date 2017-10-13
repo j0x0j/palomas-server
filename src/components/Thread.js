@@ -62,7 +62,6 @@ class Thread extends React.Component {
   render () {
     const { threadId, messages } = this.state
     const data = messages.slice()
-    data.reverse()
     return (
       <div className='thread-component'>
         <PageHeader>
@@ -73,7 +72,7 @@ class Thread extends React.Component {
           ? <p>No encontramos esta conversación</p> : null}
 
         <div style={{ marginBottom: '60px' }}>
-          {data.map((message, i) => {
+          {data.reverse().map((message, i) => {
             const { senderName, content, createdAt } = message
             const date = dateformat(createdAt, '\'en\' d.mm.yy')
             return (
@@ -103,7 +102,7 @@ class Thread extends React.Component {
           }}
           onClick={() => {
             this.props.history.push(
-              `/create?id=${threadId}&to=${this.state.messages[0].senderName}`
+              `/create?id=${threadId}&to=${messages[0].receiverName}`
             )
           }}
         >

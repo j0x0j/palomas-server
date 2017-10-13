@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const { join } = require('path')
+const hasher = require('object-hash')
 const router = new express.Router()
 const Packager = require('../lib/packager')
 const { resWithError, genThreadId } = require('../utils')
@@ -61,8 +62,12 @@ router
   .route('/message')
   .post(
     async (req, res, next) => {
-      const data = req.body
-      const threadId = data.threadId
+      const {
+        threadId,
+        senderName,
+        receiverName,
+        content
+      } = req.body
       if (!threadId) {
         return resWithError(res, 400, 'Invalid parameters')
       }
@@ -71,26 +76,34 @@ router
       if (!thread) {
         return resWithError(res, 404, 'No thread found')
       }
+
+      const { senderPhone, receiverPhone } = thread
+      const hash = hasher({
+        threadId,
+        receiverPhone,
+        receiverName,
+        senderPhone,
+        senderName,
+        content
+      })
+
       // Push message to thread
-      thread.messages.push(data)
+      thread.messages.push({
+        hash,
+        senderName,
+        receiverName,
+        content
+      })
       await thread.save()
 
-      // Check if is in 'offgrid' mode
-      if (
-        process.env.NODE_ENV === 'offgrid' ||
-        process.env.NODE_ENV === 'testing'
-      ) {
-        const { senderName, receiverName, content } = data
-        const { senderPhone, receiverPhone } = thread
-        Packager.pack(JSON.stringify({
-          threadId,
-          receiverName,
-          receiverPhone,
-          senderName,
-          senderPhone,
-          content
-        }), PACKAGE_PATH)
-      }
+      Packager.pack(JSON.stringify({
+        threadId,
+        receiverName,
+        receiverPhone,
+        senderName,
+        senderPhone,
+        content
+      }), PACKAGE_PATH)
 
       res.json(thread)
     }
@@ -128,12 +141,21 @@ router
         return resWithError(res, 400, 'Not a new thread')
       }
       const threadId = genThreadId(receiverPhone, senderPhone)
+      const hash = hasher({
+        threadId,
+        receiverPhone,
+        receiverName,
+        senderPhone,
+        senderName,
+        content
+      })
       const data = {
         threadId,
         senderPhone,
         receiverPhone,
         messages: [
           {
+            hash,
             senderName,
             receiverName,
             content
