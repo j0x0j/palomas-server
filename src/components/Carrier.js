@@ -78,6 +78,10 @@ class Carrier extends React.Component {
       reader.addEventListener('loadend', () => {
         const dataUrl = reader.result
         const base64 = dataUrl.split(',')[1]
+        if (!base64) {
+          // Don't set empty package
+          return
+        }
         const packages = self.state.packages.concat([{ key, base64 }])
         localStorage.setItem(key, base64)
         self.setState({ packages })
