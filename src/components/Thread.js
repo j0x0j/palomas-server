@@ -21,6 +21,7 @@ class Thread extends React.Component {
     super(props)
 
     this.state = {
+      env: '',
       threadId: '',
       messages: []
     }
@@ -29,6 +30,7 @@ class Thread extends React.Component {
   componentWillMount () {
     const query = qs.parse(location.search)
     this.setState({ threadId: query.id })
+    this.checkHealth()
   }
 
   componentDidMount () {
@@ -56,6 +58,14 @@ class Thread extends React.Component {
         }
         self.setState({ messages })
       })
+      .catch(error => { alert(error.message) })
+  }
+
+  checkHealth () {
+    const self = this
+    const url = `${SERVER_ADDR}/health`
+    axios({ method: 'get', url })
+      .then(res => { self.setState({ env: res.data.env }) })
       .catch(error => { alert(error.message) })
   }
 
@@ -101,8 +111,14 @@ class Thread extends React.Component {
             right: '15px'
           }}
           onClick={() => {
+            let toName
+            if (this.state.env === 'production') {
+              toName = messages[0].senderName
+            } else {
+              toName = messages[0].receiverName
+            }
             this.props.history.push(
-              `/create?id=${threadId}&to=${messages[0].receiverName}`
+              `/create?id=${threadId}&to=${toName}`
             )
           }}
         >

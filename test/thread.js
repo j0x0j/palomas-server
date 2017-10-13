@@ -32,6 +32,7 @@ describe('Thread', function () {
         receiverPhone: '7879239920',
         messages: [
           {
+            hash: '02384y858273gt4872g34',
             senderName: 'Maria Cintrón',
             receiverName: 'Julia Santos',
             content: 'Desde el centro comunitario'
@@ -42,8 +43,9 @@ describe('Thread', function () {
         threadId: 'b320rgb283rbve',
         senderPhone: '7874934894',
         receiverPhone: '7879239920',
-        mesages: [
+        messages: [
           {
+            hash: 'j45btu34bt8gbe08rgbvwef',
             senderName: 'Gloria Alegría',
             receiverName: 'Julia Santos',
             content: 'Hoy llegaron ayudas del gobierno'
@@ -54,8 +56,9 @@ describe('Thread', function () {
         threadId: 'asdcdfv90udsfv89sfh',
         senderPhone: '7879928333',
         receiverPhone: '7879239920',
-        mesages: [
+        messages: [
           {
+            hash: 'reg0er0v8be8rbv80qerbv9',
             senderName: 'Juan Ventura',
             receiverName: 'Julia Santos',
             content: 'Que bueno que logro enviar un mensaje'
@@ -222,11 +225,13 @@ describe('Thread', function () {
           receiverPhone: '7877773322',
           messages: [
             {
+              hash: 'i3uh4t0823h08ug2h094r',
               senderName: 'Maria Cintrón',
               receiverName: 'Juan Pérez',
               content: 'Esto es contenido del mensaje'
             },
             {
+              hash: 'uf3b9cuyvsa87df8asd09',
               senderName: 'Maria Cintrón',
               receiverName: 'Juan Pérez',
               content: 'Aquí otra comunicación'

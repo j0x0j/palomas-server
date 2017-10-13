@@ -5,7 +5,7 @@ const hasher = require('object-hash')
 const knox = require('knox')
 const { Buffer } = require('buffer')
 const LZUTF8 = require('lzutf8')
-const { eachSeries, series } = require('async')
+const { eachSeries, series, waterfall } = require('async')
 
 const Notifier = require('./notifier')
 const {
@@ -113,37 +113,74 @@ const Packager = {
         senderPhone,
         content
       } = mess
-      // Queue notifications
-      notifier.queue(mess)
-      // Upsert sub documents
-      Thread.findOneAndUpdate(
-        {
-          threadId,
-          'messages.hash': {
-            $not: new RegExp(hash)
+      let isnew = false
+      waterfall([
+        (cb) => {
+          // Check if thread exists
+          Thread.findOne({ threadId }, (err, doc) => {
+            cb(err, doc)
+          })
+        },
+        (res, cb) => {
+          if (!res) {
+            // thread is new
+            const thread = new Thread({
+              threadId,
+              senderPhone,
+              receiverPhone,
+              messages: [{
+                hash,
+                senderName,
+                receiverName,
+                content
+              }]
+            })
+            isnew = true
+            // Queue notifications
+            notifier.queue(mess)
+            thread.save((err, doc) => {
+              cb(err, doc)
+            })
+          } else {
+            // check if hash exists in set
+            Thread
+              .findOne({
+                threadId,
+                'messages.hash': {
+                  '$ne': hash
+                }
+              }, (err, doc) => {
+                cb(err, doc)
+              })
           }
         },
-        {
-          threadId,
-          senderPhone,
-          receiverPhone,
-          '$addToSet': {
-            messages: {
+        (thread, cb) => {
+          if (isnew || !thread) {
+            // hash is already in set
+            cb()
+          } else {
+            thread.messages.push({
               hash,
               senderName,
               receiverName,
               content
-            }
+            })
+            // Queue notifications
+            console.log('<<NOTIFY QUEUE>>')
+            notifier.queue(mess)
+            thread.save((err, doc) => {
+              cb(err, doc)
+            })
           }
-        }, { upsert: true }, next)
-    }, (err) => {
-      callback(err)
-      if (err) return
-      // Don't notify when offgrid
-      if (NODE_ENV !== 'offgrid') {
-        notifier.process()
-      }
-    })
+        },
+      ], (err, final) => {
+        // Don't notify when offgrid
+        if (NODE_ENV !== 'offgrid') {
+          notifier.process()
+        }
+        next(err)
+      })
+    }, callback)
   },
   download (callback) {
     const key = getPackageKey()

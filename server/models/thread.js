@@ -7,7 +7,8 @@ const MessageSchema = new Schema({
   hash: {
     type: String,
     default: '',
-    trim: true
+    trim: true,
+    index: { unique: true }
   },
   senderName: {
     type: String,

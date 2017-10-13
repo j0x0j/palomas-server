@@ -74,9 +74,7 @@ class Inbox extends React.Component {
             const { threadId } = thread
             const path = `/thread?id=${threadId}`
             let threadName
-            if (
-              thread.messages[0].receiverName === this.state.name
-            ) {
+            if (this.state.env === 'production') {
               threadName = thread.messages[0].senderName
             } else {
               threadName = thread.messages[0].receiverName
