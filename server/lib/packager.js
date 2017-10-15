@@ -1,4 +1,5 @@
 // Handles compressed message packages
+const debug = require('debug')('packager')
 const fs = require('fs')
 const mongoose = require('mongoose')
 const hasher = require('object-hash')
@@ -104,6 +105,7 @@ const Packager = {
 
     const notifier = new Notifier()
     eachSeries(messages, (mess, next) => {
+      debug('message', mess)
       const hash = hasher(mess)
       const {
         threadId,
@@ -124,6 +126,7 @@ const Packager = {
         (res, cb) => {
           if (!res) {
             // thread is new
+            debug('thread is new')
             const thread = new Thread({
               threadId,
               senderPhone,
@@ -137,12 +140,14 @@ const Packager = {
             })
             isnew = true
             // Queue notifications
+            debug('will notify recipient')
             notifier.queue(mess)
             thread.save((err, doc) => {
               cb(err, doc)
             })
           } else {
             // check if hash exists in set
+            debug('thread exists')
             Thread
               .findOne({
                 threadId,
@@ -157,6 +162,7 @@ const Packager = {
         (thread, cb) => {
           if (isnew || !thread) {
             // hash is already in set
+            debug('message already exists')
             cb()
           } else {
             thread.messages.push({
@@ -166,7 +172,7 @@ const Packager = {
               content
             })
             // Queue notifications
-            console.log('<<NOTIFY QUEUE>>')
+            debug('will notify recipient')
             notifier.queue(mess)
             thread.save((err, doc) => {
               cb(err, doc)
@@ -176,6 +182,7 @@ const Packager = {
       ], (err, final) => {
         // Don't notify when offgrid
         if (NODE_ENV !== 'offgrid') {
+          debug('will send notifications')
           notifier.process()
         }
         next(err)
