@@ -30,4 +30,4 @@ fs.readdirSync(models)
   .filter(file => ~file.search(/^[^\.].*\.js$/))
   .forEach(file => require(join(models, file)))
 
-module.exports = require('./server')(env)
+module.exports = require('./server')(process.env.NODE_ENV)

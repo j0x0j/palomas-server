@@ -13,7 +13,9 @@ class Notifier {
   constructor () {
     this.receivers = []
     this.uniques = []
-    this.client = new Twilio(TWILIO_SID, TWILIO_TOK)
+    if (TWILIO_SID && TWILIO_TOK) {
+      this.client = new Twilio(TWILIO_SID, TWILIO_TOK)
+    }
   }
 
   queue (message) {
@@ -51,6 +53,9 @@ class Notifier {
       to = TWILIO_TEST_TO_NUMBER
     } else {
       to = mess.receiverPhone
+    }
+    if (!this.client) {
+      return callback(null)
     }
     this.client.messages.create({ body, to, from })
       .then(message => {

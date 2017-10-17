@@ -22,19 +22,6 @@ const {
   AWS_BUCKET
 } = process.env
 
-const s3conf = new S3Config({
-  'accessKeyId': AWS_ID,
-  'secretAccessKey': AWS_KEY,
-  'region': AWS_REGION,
-  'bucket': AWS_BUCKET
-})
-
-const s3client = knox.createClient({
-  key: AWS_ID,
-  secret: AWS_KEY,
-  bucket: AWS_BUCKET
-})
-
 const Thread = mongoose.model('Thread')
 
 const getPackageKey = () => NODE_ENV === 'testing' ? 'messages.json.lz.test' : 'messages.json.lz'
@@ -62,6 +49,12 @@ const Packager = {
           NODE_ENV === 'production' ||
           NODE_ENV === 'testing'
         ) {
+          const s3conf = new S3Config({
+            'accessKeyId': AWS_ID,
+            'secretAccessKey': AWS_KEY,
+            'region': AWS_REGION,
+            'bucket': AWS_BUCKET
+          })
           const key = getPackageKey()
           const service = new S3Append(s3conf, key, Format.Text)
           service.append(packed)
@@ -190,6 +183,11 @@ const Packager = {
     }, callback)
   },
   download (callback) {
+    const s3client = knox.createClient({
+      key: AWS_ID,
+      secret: AWS_KEY,
+      bucket: AWS_BUCKET
+    })
     const key = getPackageKey()
     s3client.getFile(key, callback)
   }
