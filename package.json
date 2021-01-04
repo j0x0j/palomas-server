@@ -33,7 +33,7 @@
     "twilio": "^3.8.0"
   },
   "devDependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "copyfiles": "^1.2.0",
     "dateformat": "^3.0.2",
     "eslint": "^4.8.0",
