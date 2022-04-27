@@ -13,7 +13,7 @@
   "author": "Joel Martinez @j0x0j",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.4",
     "body-parser": "^1.18.2",
     "buffer-reverse": "^1.0.1",
     "cookie-parser": "^1.4.3",
